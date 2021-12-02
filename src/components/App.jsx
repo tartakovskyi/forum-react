@@ -1,7 +1,7 @@
 import React from 'react'
 import { Redirect, Route, Routes, Switch } from 'react-router-dom'
 import Navigation from './Navigation'
-import TopicList from './TopicList'
+import ThreadList from './ThreadList'
 
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
       <main>
         <div className="container">
           <Routes>
-            <Route exact path="/" element={<TopicList />} />
+            <Route exact path="/" element={<ThreadList />} />
           </Routes>
         </div>
       </main>
