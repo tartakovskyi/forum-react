@@ -42,7 +42,7 @@ h1 {
     font-size: 46px;
     font-weight: 700;
     color: $black;
-    margin-bottom: 14px;
+    margin-bottom: 35px;
 }
 
 .community-post {
@@ -65,6 +65,13 @@ h1 {
 
         &:not(:last-child) {
             border-bottom: 1px solid #f2f3f4;
+        }
+
+        &:hover {
+            background: #f7f9fa;
+            transform: translateX(0);
+            box-shadow: none;
+            border-color: #f7f9fa;
         }
     }
 
@@ -101,6 +108,10 @@ h1 {
 
                 & a {
                     color: $black;
+
+                    &:hover {
+                        color: $cyan;
+                    }
                 }
             }
         }
@@ -122,4 +133,38 @@ h1 {
             }
         }
     }
+
+    & .post-meta-wrapper {
+
+        .post-meta-info {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+
+            & li {
+                display: inline-block;
+
+                &:not(:last-child) {
+                    margin-right: 30px;
+                }
+
+                &.post-meta-count {
+                    min-width: 50px;
+                }
+
+                & a {
+                    display: block;
+                    color: #868b99;
+
+                    &:hover {
+                        color: $cyan;
+                    }
+
+                    & i {
+                        margin-right: 5px;
+                    }
+                }
+            }
+        }
+    } 
 }

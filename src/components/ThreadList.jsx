@@ -14,12 +14,21 @@ function ThreadList() {
     axios
     .get('/thread')
     .then(response => {
-      setThreads(response.data)
+      let treadsArr = response.data.map(threadObj => {
+        threadObj.created_at = convertDate(threadObj.created_at)
+        return threadObj
+      })
+      setThreads(treadsArr)
     })
     .catch(error => {
       console.log(error)
     })
   }, [])
+
+  const convertDate = string => {
+    const date = new Date(string.created_at)
+    return date.toDateString() //+ ' ' + date.getHours() + ':' + date.getMinutes()
+  } 
 
   return (
     <>
@@ -29,7 +38,7 @@ function ThreadList() {
         <div className="community-post style-two" key={index}>
           <div className="post-content">
             <a href="" className="author-avatar">
-              <img alt="" src="https://secure.gravatar.com/avatar/f0939a3e0da9cb1a963606d6f2e36c4f?s=40&amp;d=mm&amp;r=g"  class="avatar avatar-40 photo" loading="lazy" />
+              <img alt="" src="https://secure.gravatar.com/avatar/f0939a3e0da9cb1a963606d6f2e36c4f?s=40&amp;d=mm&amp;r=g"  className="avatar photo" loading="lazy" />
             </a>
             <div className="entry-content">
               <h3 className="post-title">
@@ -37,11 +46,20 @@ function ThreadList() {
                   {thread.title}
                 </Link>
               </h3>
-              <ul class="meta">
-              <li><i class="icon_calendar"></i> June 15, 2021 at 7:36 am</li>
+              <ul className="meta">
+                <li><i className="icon_calendar"></i> {thread.created_at}</li>
               </ul>
             </div>            
-          </div> 
+          </div>
+          <div className="post-meta-wrapper">
+            <ul className="post-meta-info">
+              <li className="post-meta-count">
+                <Link to={'/chat/' + thread.id}>
+                  <i className="icon_chat_alt"></i> {thread.posts_count}
+                </Link>
+              </li>
+            </ul>            
+          </div>
         </div>        
       ))}
       </div>
