@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import Userpic from '../common/Userpic'
 
 
 axios.defaults.baseURL = 'http://forum.loc/api/'
@@ -26,23 +27,23 @@ function ThreadList() {
   }, [])
 
   const convertDate = string => {
-    const date = new Date(string.created_at)
-    return date.toDateString() //+ ' ' + date.getHours() + ':' + date.getMinutes()
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const date = new Date(string)
+
+    return monthNames[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear() + ' at ' + date.getHours() + ':' + date.getMinutes()
   } 
 
   return (
     <>
       <h1>Threads</h1>
       <div className="community-posts-wrapper bb-radius">
-      {threads.map((thread, index) => (
-        <div className="community-post style-two" key={index}>
+      {threads.map(thread => (
+        <div className="community-post style-two" key={thread.id}>
           <div className="post-content">
-            <a href="" className="author-avatar">
-              <img alt="" src="https://secure.gravatar.com/avatar/f0939a3e0da9cb1a963606d6f2e36c4f?s=40&amp;d=mm&amp;r=g"  className="avatar photo" loading="lazy" />
-            </a>
+            <Userpic user={thread.user} />
             <div className="entry-content">
               <h3 className="post-title">
-                <Link to={'/chat/' + thread.id}>
+                <Link to={'/thread/' + thread.id}>
                   {thread.title}
                 </Link>
               </h3>
@@ -54,7 +55,7 @@ function ThreadList() {
           <div className="post-meta-wrapper">
             <ul className="post-meta-info">
               <li className="post-meta-count">
-                <Link to={'/chat/' + thread.id}>
+                <Link to={'/thread/' + thread.id}>
                   <i className="icon_chat_alt"></i> {thread.posts_count}
                 </Link>
               </li>

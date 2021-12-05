@@ -1,7 +1,8 @@
 import React from 'react'
-import { Redirect, Route, Routes, Switch } from 'react-router-dom'
-import Navigation from './Navigation'
-import ThreadList from './ThreadList'
+import { Route, Routes } from 'react-router-dom'
+import Navigation from './common/Navigation'
+import ThreadList from './home/ThreadList'
+import ThreadPage from './thread/ThreadPage'
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <div className="container">
           <Routes>
             <Route exact path="/" element={<ThreadList />} />
+            <Route path="/thread/:id" element={<ThreadPage />} />
           </Routes>
         </div>
       </main>
