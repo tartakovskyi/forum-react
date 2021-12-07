@@ -14,6 +14,7 @@ function ThreadPage() {
   useEffect(() => {
     getPosts(id)
     .then(response => {
+      console.log(response.data.posts)
       setThreadInfo(response.data.threadInfo)
       setPosts(response.data.posts)
     })
@@ -25,7 +26,7 @@ function ThreadPage() {
   return (
     <>
       <Title title={threadInfo.title} />
-      <PostList posts={posts} level="1" />
+      {posts && <PostList posts={posts} level="1" />}
     </>
   )
 }

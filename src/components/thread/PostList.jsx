@@ -3,7 +3,7 @@ import Post from './Post'
 
 
 function PostList({ posts, level }) {
-debugger
+
   return (
     <div className={'topic_comments level-' + level}>
     {posts && posts.map(post => <Post post={post} level={level} key={post.id} />)}    
