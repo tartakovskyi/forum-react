@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { convertDate } from '../../helpers'
 import Userpic from '../common/Userpic'
 
 
@@ -25,13 +26,7 @@ function ThreadList() {
       console.log(error)
     })
   }, [])
-
-  const convertDate = string => {
-    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const date = new Date(string)
-
-    return monthNames[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear() + ' at ' + date.getHours() + ':' + date.getMinutes()
-  } 
+ 
 
   return (
     <>
