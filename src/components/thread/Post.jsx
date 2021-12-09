@@ -4,7 +4,7 @@ import Userpic from '../common/Userpic'
 import PostList from './PostList'
 
 
-function Post({ post, level }) {
+function Post({ post, level, parent = null }) {
 
   const newLevel = Number(level) +1
   const date = convertDate(post.created_at)
@@ -18,14 +18,15 @@ function Post({ post, level }) {
             <span className="bbp-author-name">{post.user.login}</span>
           </a>
           <div className="forum-author-meta">
+            <div className="author-badge"><svg width="16px" height="15px"><use xlinkHref="/img/icons.svg#participant"></use></svg> {post.user.role.name}</div>
             <div className="author-badge"><i className="icon_calendar"></i> {date}</div>
           </div>
         </div>    
       </div>
       <div className="comment-content">
-        <p>{post.text}</p>
+        <p>{parent && parent.name} {post.text}</p>
       </div>
-      {post.children && <PostList posts={post.children} level={newLevel} />}
+      {post.children && <PostList posts={post.children} level={newLevel} parent={(newLevel > 3) ? {post} : null} />}
     </div>
   )
 }

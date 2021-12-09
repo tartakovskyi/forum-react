@@ -14,7 +14,6 @@ function ThreadPage() {
   useEffect(() => {
     getPosts(id)
     .then(response => {
-      console.log(response.data.posts)
       setThreadInfo(response.data.threadInfo)
       setPosts(response.data.posts)
     })
