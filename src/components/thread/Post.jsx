@@ -1,6 +1,7 @@
 import React from 'react'
 import { convertDate } from '../../helpers'
 import Userpic from '../common/Userpic'
+import ParentPost from './ParentPost'
 import PostList from './PostList'
 
 
@@ -24,9 +25,10 @@ function Post({ post, level, parent = null }) {
         </div>    
       </div>
       <div className="comment-content">
-        <p>{parent && parent.name} {post.text}</p>
+        {parent && <ParentPost post={parent} />}
+        <p>{post.text}</p>
       </div>
-      {post.children && <PostList posts={post.children} level={newLevel} parent={(newLevel > 3) ? {post} : null} />}
+      {post.children && <PostList posts={post.children} level={newLevel} parent={(newLevel > 3) ? post : null} />}
     </div>
   )
 }
