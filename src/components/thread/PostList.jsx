@@ -1,18 +1,9 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import Post from './Post'
 
 
-function PostList({ posts, level, parent }) {
+function PostList({ posts, level, parent, scrollToParent }) {
 
-  const postRefs = useMemo(() => {
-    const refs = {}
-    posts.forEach(post => {
-      refs[post.id] = React.createRef(null)
-    })
-    return refs
-  }, [posts])
-
-  const executeScroll = ref => {console.log(postRefs); console.log(ref)}//postRefs[ref].scrollIntoView({ behavior: 'smooth' })
 
   return (
     <div className={'topic_comments level-' + level}>
@@ -21,8 +12,7 @@ function PostList({ posts, level, parent }) {
       level={level}
       parent={parent}
       key={post.id} 
-      executeScroll={executeScroll}
-      ref1={postRefs[post.id]}
+      scrollToParent={scrollToParent}
     />)}    
     </div>
   )

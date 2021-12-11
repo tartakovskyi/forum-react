@@ -1,17 +1,20 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { convertDate } from '../../helpers'
 import Userpic from '../common/Userpic'
 import ParentPost from './ParentPost'
 import PostList from './PostList'
 
 
-function Post({ post, level, executeScroll, ref1, parent = null }) {
+function Post({ post, level, scrollToParent, parent = null }) {
 
   const newLevel = Number(level) + 1
   const date = convertDate(post.created_at)
+  const ref = useRef()
+
+  const executeScroll = () => ref.current.scrollIntoView({ behavior: 'smooth' })
 
   return (
-    <div className="forum-comment" ref={ref1}>
+    <div className="forum-comment" ref={ref}>
       <div className="forum-post-top">
         <Userpic user={post.user} />
         <div className="forum-post-author">
@@ -25,10 +28,10 @@ function Post({ post, level, executeScroll, ref1, parent = null }) {
         </div>    
       </div>
       <div className="comment-content">
-        {parent && <ParentPost post={parent} executeScroll={executeScroll} />}
+        {parent && <ParentPost post={parent} scrollToParent={scrollToParent} />}
         <p>{post.text}</p>
       </div>
-      {post.children && <PostList posts={post.children} level={newLevel} parent={(newLevel > 3) ? post : null} />}
+      {post.children && <PostList posts={post.children} level={newLevel} parent={(newLevel > 3) ? post : null} scrollToParent={executeScroll} />}
     </div>
   )
 }
