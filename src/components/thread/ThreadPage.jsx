@@ -9,7 +9,7 @@ function ThreadPage() {
 
   const [posts, setPosts] = useState([])
   const [threadInfo, setThreadInfo] = useState([])
-  let { id } = useParams();
+  let { id } = useParams()
 
   useEffect(() => {
     getPosts(id)

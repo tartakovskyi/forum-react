@@ -5,13 +5,13 @@ import ParentPost from './ParentPost'
 import PostList from './PostList'
 
 
-function Post({ post, level, parent = null }) {
+function Post({ post, level, executeScroll, ref1, parent = null }) {
 
-  const newLevel = Number(level) +1
+  const newLevel = Number(level) + 1
   const date = convertDate(post.created_at)
 
   return (
-    <div className="forum-comment">
+    <div className="forum-comment" ref={ref1}>
       <div className="forum-post-top">
         <Userpic user={post.user} />
         <div className="forum-post-author">
@@ -25,7 +25,7 @@ function Post({ post, level, parent = null }) {
         </div>    
       </div>
       <div className="comment-content">
-        {parent && <ParentPost post={parent} />}
+        {parent && <ParentPost post={parent} executeScroll={executeScroll} />}
         <p>{post.text}</p>
       </div>
       {post.children && <PostList posts={post.children} level={newLevel} parent={(newLevel > 3) ? post : null} />}
