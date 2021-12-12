@@ -8,7 +8,7 @@ a {
     transition: all 0.3s ease-in-out;
 
     &:hover {
-        color: #10b3d6;
+        color: $cyan;
     }
 }
 
@@ -180,7 +180,7 @@ h1 {
 
     &.level-2,
     &.level-3 {
-        padding-left: 30px;
+        padding-left: 60px;
     }
 }
 
@@ -250,6 +250,8 @@ h1 {
 
 .parent-post {
 
+    cursor: pointer;
+
     .parent-post-title {
         display: block;
         margin-bottom: 5px;
@@ -278,3 +280,56 @@ h1 {
         }
     }
 }
+
+.post-form {
+    max-width: 800px;
+    margin-top: 60px;
+}
+
+.form-group {
+    margin-bottom: 30px;
+    position: relative;
+
+    & .form-control {
+        border-radius: 6px;
+        background-color: #fbfcfd;
+        border: 1px solid #e3e8ea;
+        font-size: 14px;
+        color: $black;
+        font-weight: 400;
+        line-height: 1.5;
+        padding: 2px 30px 0;
+        transition: all 0.2s linear;
+
+        &:focus {
+            box-shadow: 0 20px 30px 0 rgba(4,73,89,.1);
+        }
+    }
+
+    & input.form-control {
+        height: 60px;
+    }
+
+    & textarea.form-control {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+}
+
+.action_btn {
+    font-size: 16px;
+    font-weight: 400;
+    color: #fff;
+    border-radius: 4px;
+    background: $cyan;
+    display: inline-block;
+    padding: 14px 28px;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.18s ease-in-out;
+
+    &:hover {
+        color: #fff;
+        box-shadow: 0 20px 30px 0 rgba(12,118,142,.24);
+    }
+}
+
+

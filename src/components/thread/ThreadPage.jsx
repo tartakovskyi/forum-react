@@ -3,6 +3,7 @@ import { useParams  } from 'react-router-dom'
 import { getPosts } from '../../api'
 import Title from '../common/Title'
 import PostList from './PostList'
+import PostForm from './PostForm'
 
 
 function ThreadPage() {
@@ -26,6 +27,7 @@ function ThreadPage() {
     <>
       <Title title={threadInfo.title} />
       {posts && <PostList posts={posts} level="1" />}
+      <PostForm />
     </>
   )
 }
