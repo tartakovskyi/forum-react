@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getAuthAction, logoutAction } from '../store/actions/userAction'
+import Login from './auth/Login'
+import Register from './auth/Register'
 import Navigation from './common/Navigation'
 import ThreadList from './home/ThreadList'
 import ThreadPage from './thread/ThreadPage'
@@ -30,6 +32,8 @@ function App({ isAuthData, getAuthAction, logoutAction }) {
       <main>
         <div className="container">
           <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route exact path="/" element={<ThreadList />} />
             <Route path="/thread/:id" element={<ThreadPage />} />
           </Routes>
