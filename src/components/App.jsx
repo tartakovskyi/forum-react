@@ -32,7 +32,7 @@ function App({ isAuthData, getAuthAction, logoutAction }) {
       <main>
         <div className="container">
           <Routes>
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Login setIsLogged={setIsLogged} />} />
             <Route path="/register" element={<Register />} />
             <Route exact path="/" element={<ThreadList />} />
             <Route path="/thread/:id" element={<ThreadPage />} />

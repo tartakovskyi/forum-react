@@ -31,6 +31,7 @@ const Login = (props) => {
                     navigate('/', { replace: true })
                 })
                 .catch(function (error) {
+                    debugger
                     if (error.response.status === 401) {
                         setErrors({ credentials: 'Invalid login or password' })
                     }

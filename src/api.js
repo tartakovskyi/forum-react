@@ -17,7 +17,7 @@ export const getAuthData = () => {
     const authToken = localToken
         ? token
         : 'Bearer ' + localStorage.getItem('token')
-    return axios.get('/current', {
+    return axios.get('/get-auth', {
         headers: { Authorization: authToken },
     })
 }
