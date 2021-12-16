@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
-import { Redirect, useNavigate } from 'react-router-dom'
-import Axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 import InfoBlock from '../common/InfoBlock'
 import setFormObject from '../common/FormUtils'
 
-const axios = require('axios').default
-axios.defaults.baseURL = 'http://chat.netxisp.host/api/'
+
 const initialData = {
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
 }
+
 
 const Register = () => {
     const [data, setData] = useState(initialData)

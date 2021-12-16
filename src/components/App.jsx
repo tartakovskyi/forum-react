@@ -9,16 +9,15 @@ import ThreadList from './home/ThreadList'
 import ThreadPage from './thread/ThreadPage'
 
 
-function App({ isAuthData, getAuthAction, logoutAction }) {
+function App({ auth, getAuthAction, logoutAction }) {
 
   const [isLogged, setIsLogged] = useState(false)
-  const [isAuthRequest, setIsAuthRequest] = useState(false)
 
   useEffect(() => {
-      if (isAuthData !== true) {
-          getAuthAction().finally(() => setIsAuthRequest(true))
+      if (auth === null) {
+          getAuthAction()
       }
-  }, [isAuthData, isLogged])
+  }, [auth, isLogged, getAuthAction])
 
   const logout = () => {
       localStorage.removeItem('token')
@@ -28,7 +27,7 @@ function App({ isAuthData, getAuthAction, logoutAction }) {
 
   return (
     <>
-      <Navigation />
+      <Navigation logout={logout} />
       <main>
         <div className="container">
           <Routes>
@@ -45,10 +44,9 @@ function App({ isAuthData, getAuthAction, logoutAction }) {
 
 
 const mapStateToProps = function ({ user }) {
-    return {
-        //isAuthData: user.isAuthData,
-        isAuthData: false
-    }
+  return {
+    auth: user.auth,
+  }
 }
 
 export default connect(mapStateToProps, { getAuthAction, logoutAction })(App)
