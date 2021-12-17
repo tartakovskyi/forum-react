@@ -51,11 +51,12 @@ h1 {
 }
 
 .author-avatar {
+    flex-shrink: 0;
     width: 40px;
+    height: 40px;
     margin-right: 25px;
     border-radius: 50%;
     overflow: hidden;
-    height: 40px;
 
     & img {
         width: 100%;
@@ -187,17 +188,6 @@ h1 {
 .forum-comment {
     margin-top: 30px;
     position: relative;
-
-    & .comment-content p {
-        line-height: 26px;
-        font-size: 16px;
-        margin-top: 10px;
-        color: $grey;
-
-        &:not(:last-child) {
-            margin-bottom: 1rem;
-        }
-    }
 }
 
 .forum-post-top {
@@ -206,6 +196,7 @@ h1 {
 
 .forum-post-author {
     margin-top: -2px;
+    flex-shrink: 0;
 
     & .forum-author-meta {
         display: flex;
@@ -231,6 +222,12 @@ h1 {
     }
 }
 
+.forum-post-reply {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
 .comment-content {
     margin-top: 10px;
     border-bottom: 1px solid #e8ecee;
@@ -245,6 +242,17 @@ h1 {
 
     &::after {
         clear: both;
+    }
+
+    & p {
+        line-height: 26px;
+        font-size: 16px;
+        margin-top: 10px;
+        color: $grey;
+
+        &:not(:last-child) {
+            margin-bottom: 1rem;
+        }
     }
 }
 

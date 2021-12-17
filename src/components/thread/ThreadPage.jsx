@@ -10,6 +10,7 @@ function ThreadPage() {
 
   const [posts, setPosts] = useState([])
   const [threadInfo, setThreadInfo] = useState([])
+  const [replyingToPost, setReplyingToPost] = useState(null)
   let { id } = useParams()
 
   useEffect(() => {
@@ -23,11 +24,15 @@ function ThreadPage() {
     })
   }, [id])
 
+  const reply = post => {
+    setReplyingToPost(post)
+  }
+
   return (
     <>
       <Title title={threadInfo.title} />
-      {posts && <PostList posts={posts} level="1" />}
-      <PostForm />
+      {posts && <PostList posts={posts} setReplyingToPost={setReplyingToPost} level="1" />}
+      <PostForm threadId={threadInfo.id} parent={replyingToPost} />
     </>
   )
 }

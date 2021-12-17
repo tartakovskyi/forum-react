@@ -22,6 +22,10 @@ export const getAuthData = () => {
     })
 }
 
+export const addPost = (data) => {
+    return axios.post(`/post`, data)
+}
+
 export const getPosts = (threadId) => {
     return axios.get(`/thread/${threadId}`)
 }
