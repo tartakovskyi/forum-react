@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import setFormObject from '../common/FormUtils'
 import { addPost } from '../../api'
+import InfoBlock from '../common/InfoBlock'
 
 
 const initialData = {
@@ -9,7 +10,7 @@ const initialData = {
 }
 
 
-function PostForm({ auth, threadId, parent }) {
+function PostForm({ auth, threadId, parent, counter }) {
 
     const [data, setData] = useState(initialData)
     const [errors, setErrors] = useState({})
@@ -22,19 +23,20 @@ function PostForm({ auth, threadId, parent }) {
 
         if (Object.keys(errors).length === 0) {
             addPost({
-                    user_id: auth.id,
-                    thread_id: threadId,
-                    parent_id: parent ? parent.id : 0,
-                    text: data.text,
-                })
-                .then(function (response) {
-                    if (response.status == 200) {
-                        setData(initialData)
-                    }
-                })
-                .catch(function (error) {
-                    console.log(error)
-                })
+                user_id: auth.id,
+                thread_id: threadId,
+                parent_id: parent ? parent.id : 0,
+                text: data.text,
+            })
+            .then(function (response) {
+                if (response.status == 200) {
+                    setData(initialData)
+                    counter()
+                }
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
         }
 
     }
@@ -42,15 +44,16 @@ function PostForm({ auth, threadId, parent }) {
     const validate = (data) => {
         const errors = {}
 
-        if (!data.text) errors.text = 'Post cannot be blank'
+        if (!data.text) errors.text = 'Post cannot be blank';
 
-            return errors
+        return errors
     }
 
 
     return (
         <form onSubmit={handleSubmit} className="post-form" id="postForm">
-            <h2 className="mb-4">Reply</h2>
+            <h2 className="mb-4">Post Your Comment</h2>
+            {Object.keys(errors).length > 0 && <InfoBlock errors={errors} />}
             {parent 
                 &&
                 <div className="parent-post">
@@ -68,7 +71,7 @@ function PostForm({ auth, threadId, parent }) {
                     onChange={setFormObject(data, setData)}
                 ></textarea>
             </div>
-            <div class="text-center">
+            <div className="text-center">
                 <button type="submit" className="btn action_btn">Submit</button>
             </div>
         </form>

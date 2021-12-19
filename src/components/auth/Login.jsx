@@ -7,8 +7,7 @@ import setFormObject from '../common/FormUtils'
 
 const initialData = {
     email: '',
-    password: '',
-    remember_me: false,
+    password: ''
 }
 
 const Login = (props) => {
@@ -28,10 +27,9 @@ const Login = (props) => {
                 .then(function (response) {
                     localStorage.setItem('token', response.data.token)
                     props.setIsLogged(true)
-                    navigate('/', { replace: true })
+                    navigate(-1)
                 })
                 .catch(function (error) {
-                    debugger
                     if (error.response.status === 401) {
                         setErrors({ credentials: 'Invalid login or password' })
                     }
@@ -57,9 +55,6 @@ const Login = (props) => {
                     {Object.keys(errors).length > 0 && (
                         <InfoBlock errors={errors} />
                     )}
-                    {/*{props.location.state && props.location.state.success && (
-                        <InfoBlock success={props.location.state.success} />
-                    )}*/}
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
                             <label htmlFor="email">E-mail:</label>
@@ -83,28 +78,9 @@ const Login = (props) => {
                                 onChange={setFormObject(data, setData)}
                             />
                         </div>
-                        <div className="form-check mb-4">
-                            <input
-                                type="checkbox"
-                                className="form-check-input"
-                                id="remember_me"
-                                name="remember_me"
-                                value={data.remember_me}
-                                onChange={setFormObject(data, setData)}
-                            />
-                            <label
-                                htmlFor="remember_me"
-                                className="form-check-label"
-                            >
-                                Remember me
-                            </label>
+                        <div className="text-center">
+                            <button type="submit" className="btn action_btn">Submit</button>
                         </div>
-                        <button
-                            type="submit"
-                            className="btn btn-block btn-primary"
-                        >
-                            Submit
-                        </button>
                     </form>
                 </div>
             </div>
