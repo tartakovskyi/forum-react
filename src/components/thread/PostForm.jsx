@@ -35,7 +35,11 @@ function PostForm({ auth, threadId, parent, counter }) {
                 }
             })
             .catch(function (error) {
-                console.log(error)
+                if(error.response.data && error.response.data.errors) {
+                    const errors = {}
+                    Object.keys(error.response.data.errors).forEach(key => errors[key] = error.response.data.errors[key][0])
+                    setErrors(errors)
+                }
             })
         }
 
