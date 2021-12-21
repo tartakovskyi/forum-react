@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import InfoBlock from '../common/InfoBlock'
 import setFormObject from '../common/FormUtils'
@@ -13,8 +13,9 @@ const initialData = {
 const Login = (props) => {
     const [data, setData] = useState(initialData)
     const [errors, setErrors] = useState({})
+    const location = useLocation()
     let navigate = useNavigate()
-
+debugger
     const handleSubmit = (e) => {
         e.preventDefault()
 
@@ -54,6 +55,9 @@ const Login = (props) => {
                     <h1 className="text-center">Sign In</h1>
                     {Object.keys(errors).length > 0 && (
                         <InfoBlock errors={errors} />
+                    )}
+                    {location.state && location.state.success && (
+                        <InfoBlock success={location.state.success} />
                     )}
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
