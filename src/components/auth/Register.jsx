@@ -13,6 +13,7 @@ const initialData = {
     last_name: '',
     password: '',
     confirmPassword: '',
+    userpic: ''
 }
 
 
@@ -31,15 +32,15 @@ const Register = () => {
 
         if (Object.keys(errors).length === 0) {
             register(data)
-            .then(function (response) {
+            .then(response => {
                 setSuccessMessage(response.data.message)
                 navigate('/login', {
-                  state: {
-                    success: successMessage
+                    state: {
+                        success: successMessage
                     }
                 })
             })
-            .catch(function ({ response }) {
+            .catch(({ response }) => {
                 setErrors(response.data.errors)
             })
         }
@@ -59,8 +60,14 @@ const Register = () => {
         return errors
     }
 
-    const handleChangeUserpic = (e) => {
+    const handleUserpic = (e) => {
         uploadUserpic(e.target.files[0])
+        .then(response => {
+            if (response.data.status && response.data.status === 'success') {
+                setData({...data, userpic: response.data.file_name})
+            }
+            
+        })
     }
 
     return (
@@ -152,10 +159,10 @@ const Register = () => {
                             <input
                                 type="file"
                                 className="form-control"
-                                id="userpic"
-                                name="userpic"
+                                id="userpic-input"
+                                name="userpic-input"
                                 ref={userpicInput}
-                                onChange={handleChangeUserpic}
+                                onChange={handleUserpic}
                             />
                         </div>
                         <div className="form-group">
