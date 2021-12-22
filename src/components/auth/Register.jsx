@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { register, uploadUserpic } from '../../api'
 import InfoBlock from '../common/InfoBlock'
 import setFormObject from '../common/FormUtils'
 
@@ -20,7 +20,8 @@ const Register = () => {
     const [data, setData] = useState(initialData)
     const [errors, setErrors] = useState({})
     const [successMessage, setSuccessMessage] = useState('')
-    let navigate = useNavigate()
+    const userpicInput = useRef()
+    const navigate = useNavigate()
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -29,20 +30,18 @@ const Register = () => {
         setErrors(errors)
 
         if (Object.keys(errors).length === 0) {
-            axios
-                .post('/register', data)
-                .then(function (response) {
-                    setSuccessMessage(response.data.message)
-                    debugger
-                    navigate('/login', {
-                      state: {
-                        success: successMessage
-                        }
-                    })
+            register(data)
+            .then(function (response) {
+                setSuccessMessage(response.data.message)
+                navigate('/login', {
+                  state: {
+                    success: successMessage
+                    }
                 })
-                .catch(function ({ response }) {
-                    setErrors(response.data.errors)
-                })
+            })
+            .catch(function ({ response }) {
+                setErrors(response.data.errors)
+            })
         }
     }
 
@@ -58,6 +57,10 @@ const Register = () => {
         if (data.password != data.confirmPassword) errors.confirmPassword = 'password and confirmation should match'
 
         return errors
+    }
+
+    const handleChangeUserpic = (e) => {
+        uploadUserpic(e.target.files[0])
     }
 
     return (
@@ -142,6 +145,17 @@ const Register = () => {
                                 name="phone"
                                 value={data.phone}
                                 onChange={setFormObject(data, setData)}
+                            />
+                        </div>
+                         <div className="form-group">
+                            <label htmlFor="userpic">Userpic:</label>
+                            <input
+                                type="file"
+                                className="form-control"
+                                id="userpic"
+                                name="userpic"
+                                ref={userpicInput}
+                                onChange={handleChangeUserpic}
                             />
                         </div>
                         <div className="form-group">

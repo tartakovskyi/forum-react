@@ -14,8 +14,8 @@ const Login = (props) => {
     const [data, setData] = useState(initialData)
     const [errors, setErrors] = useState({})
     const location = useLocation()
-    let navigate = useNavigate()
-debugger
+    const navigate = useNavigate()
+
     const handleSubmit = (e) => {
         e.preventDefault()
 

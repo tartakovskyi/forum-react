@@ -22,10 +22,24 @@ export const getAuthData = () => {
     })
 }
 
+export const register = (data) => {
+    return axios.post(`/register`, data)
+}
+
 export const addPost = (data) => {
     return axios.post(`/post`, data)
 }
 
 export const getPosts = (threadId) => {
     return axios.get(`/thread/${threadId}`)
+}
+
+export const uploadUserpic = (file) => {
+    var formData = new FormData();
+    formData.append("userpic", file);
+    return axios.post('/user/userpic', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+    })
 }
