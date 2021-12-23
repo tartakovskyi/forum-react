@@ -61,13 +61,17 @@ const Register = () => {
     }
 
     const handleUserpic = (e) => {
-        uploadUserpic(e.target.files[0])
+        const file = e.target.files[0] 
+        uploadUserpic(file)
         .then(response => {
             if (response.data.status && response.data.status === 'success') {
                 setData({...data, userpic: response.data.file_name})
             }
             
         })
+        .catch(error => {
+            console.log(error.response)
+        }) 
     }
 
     return (
@@ -158,7 +162,13 @@ const Register = () => {
                             <label htmlFor="userpic">Userpic:</label>
                             <input
                                 type="file"
-                                className="form-control"
+                                className={
+                                    errors.userpic
+                                        ? 'form-control is-invalid d-block'
+                                        : data.userpic
+                                        ? 'form-control d-none'
+                                        : 'form-control d-block'
+                                }
                                 id="userpic-input"
                                 name="userpic-input"
                                 ref={userpicInput}
