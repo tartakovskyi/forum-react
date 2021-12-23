@@ -21,6 +21,7 @@ const Register = () => {
     const [data, setData] = useState(initialData)
     const [errors, setErrors] = useState({})
     const [successMessage, setSuccessMessage] = useState('')
+    const [tmpUserpic, setTmpUserpic] = useState('')
     const userpicInput = useRef()
     const navigate = useNavigate()
 
@@ -164,25 +165,28 @@ const Register = () => {
                                 type="file"
                                 className={
                                     errors.userpic
-                                        ? 'form-control is-invalid d-block'
-                                        : data.userpic
-                                        ? 'form-control d-none'
-                                        : 'form-control d-block'
+                                    ? 'form-control is-invalid d-block'
+                                    : data.userpic
+                                    ? 'form-control d-none'
+                                    : 'form-control d-block'
                                 }
                                 id="userpic-input"
                                 name="userpic-input"
                                 ref={userpicInput}
                                 onChange={handleUserpic}
                             />
-                        </div>
+                            <span className={tmpUserpic ? 'author-avatar' : 'd-none'}>
+                                <img alt="" src={tmpUserpic}  className="avatar photo" loading="lazy" />
+                            </span>
+                            </div>
                         <div className="form-group">
                             <label htmlFor="password">Password:</label>
                             <input
                                 type="password"
                                 className={
                                     errors.password
-                                        ? 'form-control is-invalid'
-                                        : 'form-control'
+                                    ? 'form-control is-invalid'
+                                    : 'form-control'
                                 }
                                 id="password"
                                 name="password"
