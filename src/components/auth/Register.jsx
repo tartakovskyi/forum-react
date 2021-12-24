@@ -67,8 +67,8 @@ const Register = () => {
         .then(response => {
             if (response.data.status && response.data.status === 'success') {
                 setData({...data, userpic: response.data.file_name})
+                setTmpUserpic(`http://forum.loc/storage/tmp/${response.data.file_name}`)
             }
-            
         })
         .catch(error => {
             console.log(error.response)
@@ -175,9 +175,9 @@ const Register = () => {
                                 ref={userpicInput}
                                 onChange={handleUserpic}
                             />
-                            <span className={tmpUserpic ? 'author-avatar' : 'd-none'}>
+                            <div className={tmpUserpic ? 'author-avatar' : 'd-none'}>
                                 <img alt="" src={tmpUserpic}  className="avatar photo" loading="lazy" />
-                            </span>
+                            </div>
                             </div>
                         <div className="form-group">
                             <label htmlFor="password">Password:</label>
