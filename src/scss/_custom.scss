@@ -323,21 +323,43 @@ h1 {
         padding-top: 20px;
         padding-bottom: 20px;
     }
+
+    & .small-text {
+        color: $black;
+        margin-bottom: 5px;
+
+        & em {
+            color: $grey;
+            font-size: 14px;
+        }
+    }
 }
 
-.action_btn {
+.btn {
     font-size: 16px;
-    font-weight: 400;
-    color: #fff;
     border-radius: 4px;
-    background: $cyan;
-    display: inline-block;
     padding: 14px 48px;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.18s ease-in-out;
 
-    &:hover {
+    &.action_btn {
         color: #fff;
-        box-shadow: 0 20px 30px 0 rgba(12,118,142,.24);
+        background: $cyan;
+
+        &:hover {
+            color: #fff;
+            box-shadow: 0 20px 30px 0 rgba(12,118,142,.24);
+        }
+    }
+
+    &.light_btn {
+        color: $cyan;
+        background-color: #e7f7fb;
+        border-color: $cyan;
+        transition: box-shadow 0.18s ease-in-out;
+
+        &:hover {
+            box-shadow: 0 20px 30px 0 rgba(12,118,142,.24);
+        }
     }
 }
 

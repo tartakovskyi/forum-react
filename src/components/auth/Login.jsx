@@ -28,7 +28,8 @@ const Login = (props) => {
                 .then(function (response) {
                     localStorage.setItem('token', response.data.token)
                     props.setIsLogged(true)
-                    navigate(-1)
+                    const nextPath = location.state && location.state.success ? '/' : -1
+                    navigate(nextPath)
                 })
                 .catch(function (error) {
                     if (error.response.status === 401) {

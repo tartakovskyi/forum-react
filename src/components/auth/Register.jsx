@@ -20,7 +20,6 @@ const initialData = {
 const Register = () => {
     const [data, setData] = useState(initialData)
     const [errors, setErrors] = useState({})
-    const [successMessage, setSuccessMessage] = useState('')
     const [tmpUserpic, setTmpUserpic] = useState('')
     const userpicInput = useRef()
     const navigate = useNavigate()
@@ -34,15 +33,16 @@ const Register = () => {
         if (Object.keys(errors).length === 0) {
             register(data)
             .then(response => {
-                setSuccessMessage(response.data.message)
                 navigate('/login', {
                     state: {
-                        success: successMessage
+                        success: response.data.message
                     }
                 })
             })
-            .catch(({ response }) => {
-                setErrors(response.data.errors)
+            .catch(error => {
+                console.log(error)
+                if (error.response) {}
+                setErrors(error.response.data.errors)
             })
         }
     }
@@ -85,7 +85,7 @@ const Register = () => {
                     )}
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <label htmlFor="login">Login:</label>
+                            <label htmlFor="login" className="small-text">Login:</label>
                             <input
                                 type="text"
                                 className={
@@ -100,7 +100,7 @@ const Register = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="name">First Name:</label>
+                            <label htmlFor="name" className="small-text">First Name:</label>
                             <input
                                 type="text"
                                 className={
@@ -115,7 +115,7 @@ const Register = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="name">Last Name:</label>
+                            <label htmlFor="name" className="small-text">Last Name:</label>
                             <input
                                 type="text"
                                 className={
@@ -130,7 +130,7 @@ const Register = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="email">E-mail:</label>
+                            <label htmlFor="email" className="small-text">E-mail:</label>
                             <input
                                 type="email"
                                 className={
@@ -145,7 +145,7 @@ const Register = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="phone">Phone:</label>
+                            <label htmlFor="phone" className="small-text">Phone:</label>
                             <input
                                 type="text"
                                 className={
@@ -160,16 +160,25 @@ const Register = () => {
                             />
                         </div>
                          <div className="form-group">
-                            <label htmlFor="userpic">Userpic:</label>
+                            <label htmlFor="userpic" className="small-text">Userpic:</label>
+                            <label 
+                                htmlFor="userpic" 
+                                className={data.userpic ? 'd-none' : 'd-block'}
+                            >
+                                <div className="small-text">
+                                    <em>Only jpg, jpeg, png, jpg, gif, webp or svg with maximum size of 128Kb are allowed!</em>
+                                </div>
+                                <button 
+                                    className="btn light_btn"
+                                    type="button"
+                                    onClick={() => userpicInput.current.click()}
+                                >
+                                    Upload
+                                </button>
+                            </label>
                             <input
                                 type="file"
-                                className={
-                                    errors.userpic
-                                    ? 'form-control is-invalid d-block'
-                                    : data.userpic
-                                    ? 'form-control d-none'
-                                    : 'form-control d-block'
-                                }
+                                className="d-none"
                                 id="userpic-input"
                                 name="userpic-input"
                                 ref={userpicInput}
@@ -180,7 +189,7 @@ const Register = () => {
                             </div>
                             </div>
                         <div className="form-group">
-                            <label htmlFor="password">Password:</label>
+                            <label htmlFor="password" className="small-text">Password:</label>
                             <input
                                 type="password"
                                 className={
@@ -195,7 +204,7 @@ const Register = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="confirmPassword">
+                            <label htmlFor="confirmPassword" className="small-text">
                                 Confirm Password:
                             </label>
                             <input
