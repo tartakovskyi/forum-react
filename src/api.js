@@ -27,7 +27,12 @@ export const register = (data) => {
 }
 
 export const addPost = (data) => {
-    return axios.post(`/post`, data)
+    const authToken = localToken
+        ? token
+        : 'Bearer ' + localStorage.getItem('token')
+    return axios.post('/post', data, {
+        headers: { Authorization: authToken },
+    })
 }
 
 export const getPosts = (threadId) => {

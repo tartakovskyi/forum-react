@@ -29,12 +29,13 @@ function PostForm({ auth, threadId, parent, counter }) {
                 text: data.text,
             })
             .then(function (response) {
-                if (response.status == 200) {
+                if (response.status === 200) {
                     setData(initialData)
                     counter()
                 }
             })
             .catch(function (error) {
+                console.log(error)
                 if(error.response && error.response.data && error.response.data.errors) {
                     const errors = {}
                     Object.keys(error.response.data.errors).forEach(key => errors[key] = error.response.data.errors[key][0])
