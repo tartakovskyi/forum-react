@@ -35,8 +35,8 @@ export const addPost = (data) => {
     })
 }
 
-export const getPosts = (threadId) => {
-    return axios.get(`/thread/${threadId}`)
+export const getPosts = (threadId, limit) => {
+    return axios.get(`/thread/${threadId}`, { params: { limit }})
 }
 
 export const uploadUserpic = (file) => {
