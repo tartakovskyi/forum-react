@@ -52,7 +52,7 @@ function ThreadPage({ auth }) {
       <div className="post-form-wrapper" ref={ref}>
         {auth === null
           ?
-          <div className="alert alert-warning" role="alert">
+          <div className="alert alert-warning mt-5" role="alert">
               You must be <Link to='/login'>logged in</Link> to post a comment
           </div>
           :

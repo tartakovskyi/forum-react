@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { Link  } from 'react-router-dom'
 import { convertDate } from '../../helpers'
 import Userpic from '../common/Userpic'
@@ -11,8 +11,14 @@ function Post({ post, level, setReplyingToPost, scrollToParent, parent }) {
   const newLevel = Number(level) + 1
   const date = convertDate(post.created_at)
   const ref = useRef()
+  const [showChildren, setShowChildren] = useState(false)
 
   const executeScroll = () => ref.current.scrollIntoView({ behavior: 'smooth' })
+
+  const toggleChildren = e => {
+    e.preventDefault()
+    setShowChildren(!showChildren)
+  }
 
   return (
     <div className="forum-comment" ref={ref}>
@@ -35,14 +41,27 @@ function Post({ post, level, setReplyingToPost, scrollToParent, parent }) {
         {parent && <ParentPost post={parent} scrollToParent={scrollToParent} />}
         <p>{post.text}</p>
       </div>
-      {post.children && 
-        <PostList 
-        posts={post.children}
-        level={newLevel} 
-        parent={(newLevel > 3) ? post : null} 
-        scrollToParent={executeScroll} 
-        setReplyingToPost={setReplyingToPost} 
-        />
+
+      {post.children &&
+        <>
+          {showChildren
+            ?
+              <>
+                <a href="#" onClick={e => toggleChildren(e)} className="d-block mt-4">Hide replies</a>
+                <PostList 
+                  posts={post.children}
+                  level={newLevel} 
+                  parent={(newLevel > 3) ? post : null} 
+                  scrollToParent={executeScroll} 
+                  setReplyingToPost={setReplyingToPost} 
+                />
+              </>
+            :
+              <a href="#" onClick={e => toggleChildren(e)} className="d-block mt-4">{`View ${post.children.length} replies`}</a>
+          } 
+        </>
+        
+        
       }
     </div>
   )
