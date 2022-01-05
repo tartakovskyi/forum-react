@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import setFormObject from '../common/FormUtils'
-import { addPost } from '../../api'
+import { openThread } from '../../api'
 import InfoBlock from '../common/InfoBlock'
 
 
 const initialData = {
-    name: '',
+    title: '',
 }
 
 
-function ThreadForm({ auth, counter }) {
+function ThreadForm({ auth, action, counter }) {
 
     const [data, setData] = useState(initialData)
     const [errors, setErrors] = useState({})
@@ -22,10 +22,7 @@ function ThreadForm({ auth, counter }) {
         setErrors(errors)
 
         if (Object.keys(errors).length === 0) {
-            openThread({
-                user_id: auth.id,
-                name: data.name,
-            })
+            dynamicAction()
             .then(function (response) {
                 if (response.status === 200) {
                     setData(initialData)
@@ -49,9 +46,24 @@ function ThreadForm({ auth, counter }) {
     const validate = (data) => {
         const errors = {}
 
-        if (!data.name) errors.name = 'Name cannot be blank';
+        if (!data.title) errors.title = 'Title cannot be blank';
 
         return errors
+    }
+
+
+    const dynamicAction = () => {
+        if(action === 'edit') {
+            return updateThread({
+                user_id: auth.id,
+                title: data.title,
+            })
+        } else {
+            return openThread({
+                user_id: auth.id,
+                title: data.title,
+            })
+        }
     }
 
 
@@ -60,15 +72,15 @@ function ThreadForm({ auth, counter }) {
             <h2 className="mb-4">Open New Thread</h2>
             {Object.keys(errors).length > 0 && <InfoBlock errors={errors} />}
             <div className="form-group">
-                <textarea
-                    id="name"
-                    rows="8"
+                <input
+                    id="title"
+                    type="text"
                     className="form-control"
-                    name="name"
-                    placeholder="Your comment..."
-                    value={data.name}
+                    name="title"
+                    placeholder="Thread title"
+                    value={data.title}
                     onChange={setFormObject(data, setData)}
-                ></textarea>
+                />
             </div>
             <div className="text-center">
                 <button type="submit" className="btn action_btn">Submit</button>

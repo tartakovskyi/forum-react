@@ -5,7 +5,7 @@ import { getAuthAction, logoutAction } from '../store/actions/userAction'
 import Login from './auth/Login'
 import Register from './auth/Register'
 import Navigation from './common/Navigation'
-import ThreadList from './home/ThreadList'
+import HomePage from './home/HomePage'
 import ThreadPage from './thread/ThreadPage'
 
 
@@ -33,7 +33,7 @@ function App({ auth, getAuthAction, logoutAction }) {
           <Routes>
             <Route path="/login" element={<Login setIsLogged={setIsLogged} />} />
             <Route path="/register" element={<Register />} />
-            <Route exact path="/" element={<ThreadList />} />
+            <Route exact path="/" element={<HomePage />} />
             <Route path="/thread/:id" element={<ThreadPage />} />
           </Routes>
         </div>

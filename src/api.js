@@ -39,6 +39,19 @@ export const getPosts = (threadId, limit) => {
     return axios.get(`/thread/${threadId}`, { params: { limit }})
 }
 
+export const getThreads = (limit) => {
+    return axios.get(`/thread`, { params: { limit }})
+}
+
+export const openThread = (data) => {
+    const authToken = localToken
+        ? token
+        : 'Bearer ' + localStorage.getItem('token')
+    return axios.post('/thread', data, {
+        headers: { Authorization: authToken },
+    })
+}
+
 export const uploadUserpic = (file) => {
     var formData = new FormData();
     formData.append("userpic", file);
