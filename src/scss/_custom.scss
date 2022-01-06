@@ -368,3 +368,8 @@ h1 {
         margin-bottom: 0;
     }
 }
+
+.link {
+    @extend a;
+    cursor: pointer;
+}

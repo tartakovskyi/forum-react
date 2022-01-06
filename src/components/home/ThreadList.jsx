@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { destroyThread } from '../../api'
 import Userpic from '../common/Userpic'
 
 
-function ThreadList({ threads }) {
+function ThreadList({ auth, counter, threads, editThread }) {
 
   return (
     <div className="community-posts-wrapper bb-radius">
@@ -24,6 +26,16 @@ function ThreadList({ threads }) {
         </div>
         <div className="post-meta-wrapper">
           <ul className="post-meta-info">
+            {auth && (auth.id === thread.user.id || auth.role_id == 1) &&
+            <>
+              <li className="post-meta-count">
+                <span className="link" onClick={() => destroyThread(thread.id)}>Delete</span>
+              </li>
+              <li className="post-meta-count">
+                <span className="link" onClick={() => editThread(thread.id)}>Edit</span>
+              </li>
+            </>
+            }            
             <li className="post-meta-count">
               <Link to={'/thread/' + thread.id}>
                 <i className="icon_chat_alt"></i> {thread.posts_count}
@@ -38,4 +50,11 @@ function ThreadList({ threads }) {
 }
 
 
-export default ThreadList
+const mapStateToProps = function ({ user }) {
+  return { 
+    auth: user.auth
+  }
+}
+
+
+export default connect(mapStateToProps)(ThreadList)

@@ -1,22 +1,18 @@
 import axios from 'axios'
 
 const localToken = localStorage.getItem('token')
-const token = 'Bearer ' + localToken
 
 axios.defaults.baseURL = 'http://forum.loc/api/'
 
 
-export const checkToken = () => {
-    return (
-        localStorage.getItem('token') &&
-        Date.parse(localStorage.getItem('token_expires')) > Date.now()
-    )
+const getToken = () => {
+    return localToken
+        ? 'Bearer ' + localToken
+        : 'Bearer ' + localStorage.getItem('token')
 }
 
 export const getAuthData = () => {
-    const authToken = localToken
-        ? token
-        : 'Bearer ' + localStorage.getItem('token')
+    const authToken = getToken()
     return axios.get('/get-auth', {
         headers: { Authorization: authToken },
     })
@@ -27,9 +23,7 @@ export const register = (data) => {
 }
 
 export const addPost = (data) => {
-    const authToken = localToken
-        ? token
-        : 'Bearer ' + localStorage.getItem('token')
+    const authToken = getToken()
     return axios.post('/post', data, {
         headers: { Authorization: authToken },
     })
@@ -39,18 +33,25 @@ export const getPosts = (threadId, limit) => {
     return axios.get(`/thread/${threadId}`, { params: { limit }})
 }
 
+export const destroyThread = (threadId) => {
+    const authToken = getToken()
+    return axios.delete(`/thread/${threadId}`, data, {
+        headers: { Authorization: authToken },
+    })
+}
+
 export const getThreads = (limit) => {
     return axios.get(`/thread`, { params: { limit }})
 }
 
-export const openThread = (data) => {
-    const authToken = localToken
-        ? token
-        : 'Bearer ' + localStorage.getItem('token')
-    return axios.post('/thread', data, {
+export const saveThread = (method, threadId, data) => {
+    const authToken = getToken()
+    const path = '/thread' + (threadId ? '/' + threadId : '')
+    return axios[method](path, data, {
         headers: { Authorization: authToken },
     })
 }
+
 
 export const uploadUserpic = (file) => {
     var formData = new FormData();

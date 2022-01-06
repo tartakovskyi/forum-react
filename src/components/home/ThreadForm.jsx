@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import setFormObject from '../common/FormUtils'
-import { openThread } from '../../api'
+import { saveThread } from '../../api'
 import InfoBlock from '../common/InfoBlock'
 
 
@@ -10,7 +10,7 @@ const initialData = {
 }
 
 
-function ThreadForm({ auth, action, counter }) {
+function ThreadForm({ auth, counter, editThread, threadId }) {
 
     const [data, setData] = useState(initialData)
     const [errors, setErrors] = useState({})
@@ -22,11 +22,18 @@ function ThreadForm({ auth, action, counter }) {
         setErrors(errors)
 
         if (Object.keys(errors).length === 0) {
-            dynamicAction()
+            const method = threadId ? 'put' : 'post'
+            const threadData = {
+                title: data.title
+            }
+            if (!threadId) threadData.user_id = auth.id;
+
+            saveThread(method, threadId, threadData)
             .then(function (response) {
                 if (response.status === 200) {
                     setData(initialData)
                     counter()
+                    editThread(null)
                 }
             })
             .catch(function (error) {
@@ -49,21 +56,6 @@ function ThreadForm({ auth, action, counter }) {
         if (!data.title) errors.title = 'Title cannot be blank';
 
         return errors
-    }
-
-
-    const dynamicAction = () => {
-        if(action === 'edit') {
-            return updateThread({
-                user_id: auth.id,
-                title: data.title,
-            })
-        } else {
-            return openThread({
-                user_id: auth.id,
-                title: data.title,
-            })
-        }
     }
 
 
