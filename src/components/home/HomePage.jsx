@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getThreads } from '../../api'
@@ -10,10 +10,11 @@ import ShowMoreBtn from '../common/ShowMoreBtn'
 
 function HomePage({ auth }) {
 
-  const [formThreadId, setFormThreadId] = useState(null)
+  const [formThread, setFormThread] = useState(null)
   const [newThreadCounter, setNewThreadCounter] = useState(0)
   const [limit, setLimit] = useState(10)
   const [threads, setThreads] = useState([])
+  const ref = useRef()
 
   useEffect(() => {
     getThreads(limit)
@@ -34,8 +35,9 @@ function HomePage({ auth }) {
     setNewThreadCounter(newThreadCounter + 1)
   }
 
-  const editThread = id => {
-    setFormThreadId(id)
+  const editThread = thread => {
+    setFormThread(thread)
+    if (thread) ref.current.scrollIntoView({ behavior: 'smooth' })
   }
 
   const showMore = () => {
@@ -51,14 +53,14 @@ function HomePage({ auth }) {
 
       {threads && threads.length >= limit && <ShowMoreBtn onClick={showMore} />}
 
-      <div className="post-form-wrapper">
+      <div className="post-form-wrapper" ref={ref}>
         {auth === null
           ?
           <div className="alert alert-warning mt-5" role="alert">
               You must be <Link to='/login'>logged in</Link> to open a new thread
           </div>
           :
-          <ThreadForm counter={counter} threadId={formThreadId} editThread={editThread} />
+          <ThreadForm counter={counter} thread={formThread} editThread={editThread} />
         }
       </div>
     </>

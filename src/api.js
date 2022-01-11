@@ -11,6 +11,7 @@ const getToken = () => {
         : 'Bearer ' + localStorage.getItem('token')
 }
 
+
 export const getAuthData = () => {
     const authToken = getToken()
     return axios.get('/get-auth', {
@@ -18,9 +19,11 @@ export const getAuthData = () => {
     })
 }
 
+
 export const register = (data) => {
     return axios.post(`/register`, data)
 }
+
 
 export const addPost = (data) => {
     const authToken = getToken()
@@ -29,13 +32,15 @@ export const addPost = (data) => {
     })
 }
 
+
 export const getPosts = (threadId, limit) => {
     return axios.get(`/thread/${threadId}`, { params: { limit }})
 }
 
+
 export const destroyThread = (threadId) => {
     const authToken = getToken()
-    return axios.delete(`/thread/${threadId}`, data, {
+    return axios.delete(`/thread/${threadId}`, {
         headers: { Authorization: authToken },
     })
 }
@@ -43,6 +48,7 @@ export const destroyThread = (threadId) => {
 export const getThreads = (limit) => {
     return axios.get(`/thread`, { params: { limit }})
 }
+
 
 export const saveThread = (method, threadId, data) => {
     const authToken = getToken()

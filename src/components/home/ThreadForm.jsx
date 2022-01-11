@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import setFormObject from '../common/FormUtils'
 import { saveThread } from '../../api'
@@ -10,10 +10,15 @@ const initialData = {
 }
 
 
-function ThreadForm({ auth, counter, editThread, threadId }) {
+function ThreadForm({ auth, counter, editThread, thread }) {
 
     const [data, setData] = useState(initialData)
     const [errors, setErrors] = useState({})
+    const [message, setMessage] = useState('')
+
+    useEffect(() => {
+        if (thread && thread.title) setData({ title: thread.title })
+    }, [thread])
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -22,6 +27,7 @@ function ThreadForm({ auth, counter, editThread, threadId }) {
         setErrors(errors)
 
         if (Object.keys(errors).length === 0) {
+            const threadId = (thread && thread.id) ? thread.id : null
             const method = threadId ? 'put' : 'post'
             const threadData = {
                 title: data.title
@@ -30,11 +36,15 @@ function ThreadForm({ auth, counter, editThread, threadId }) {
 
             saveThread(method, threadId, threadData)
             .then(function (response) {
-                if (response.status === 200) {
+                if (response.status === 200 && response.data.status === 'success') {
                     setData(initialData)
                     counter()
                     editThread(null)
-                }
+                    if(response.data.info) {
+                      setMessage(response.data.info)
+                      setTimeout(() => setMessage(''), 1500)
+                  }
+              }
             })
             .catch(function (error) {
                 console.log(error)
@@ -61,8 +71,9 @@ function ThreadForm({ auth, counter, editThread, threadId }) {
 
     return (
         <form onSubmit={handleSubmit} className="post-form" id="postForm">
-            <h2 className="mb-4">Open New Thread</h2>
-            {Object.keys(errors).length > 0 && <InfoBlock errors={errors} />}
+            <h2 className="mb-4">{thread ? 'Edit Thread' : 'Open New Thread'}</h2>
+            {Object.keys(errors).length > 0 && <InfoBlock errors={errors} />}          
+            {message && <InfoBlock success={message} />}
             <div className="form-group">
                 <input
                     id="title"
