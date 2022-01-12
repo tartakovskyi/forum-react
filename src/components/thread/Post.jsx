@@ -25,7 +25,7 @@ function Post({ post, level, setReplyingToPost, scrollToParent, parent }) {
       <div className="forum-post-top">
         <Userpic user={post.user} />
         <div className="forum-post-author">
-          <a href={'/user/dylan/' + post.user.id} title={'View ' + post.user.login + '\'s profile'} className="bbp-author-link">
+          <a href={'/user/' + post.user.id} title={'View ' + post.user.login + '\'s profile'} className="bbp-author-link">
             <span className="bbp-author-name">{post.user.login}</span>
           </a>
           <div className="forum-author-meta">

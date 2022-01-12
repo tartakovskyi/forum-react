@@ -1,14 +1,10 @@
 import axios from 'axios'
 
-const localToken = localStorage.getItem('token')
-
 axios.defaults.baseURL = 'http://forum.loc/api/'
 
 
 const getToken = () => {
-    return localToken
-        ? 'Bearer ' + localToken
-        : 'Bearer ' + localStorage.getItem('token')
+    return 'Bearer ' + localStorage.getItem('token')
 }
 
 
@@ -33,8 +29,25 @@ export const addPost = (data) => {
 }
 
 
+export const destroyPost = (postId) => {
+    const authToken = getToken()
+    return axios.delete(`/post/${postId}`, {
+        headers: { Authorization: authToken },
+    })
+}
+
+
 export const getPosts = (threadId, limit) => {
     return axios.get(`/thread/${threadId}`, { params: { limit }})
+}
+
+
+export const savePost = (method, postId, data) => {
+    const authToken = getToken()
+    const path = '/post' + (postId ? '/' + postId : '')
+    return axios[method](path, data, {
+        headers: { Authorization: authToken },
+    })
 }
 
 
