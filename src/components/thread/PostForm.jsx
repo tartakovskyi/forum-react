@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import setFormObject from '../common/FormUtils'
-import { addPost } from '../../api'
+import { savePost } from '../../api'
 import InfoBlock from '../common/InfoBlock'
 
 
@@ -10,10 +10,16 @@ const initialData = {
 }
 
 
-function PostForm({ auth, threadId, parent, counter }) {
+function PostForm({ auth, counter, editPost, post, parent, threadId  }) {
 
     const [data, setData] = useState(initialData)
+    const [message, setMessage] = useState('')    
     const [errors, setErrors] = useState({})
+
+    useEffect(() => {
+        const formData = (post && post.text) ? { text: post.text } : initialData
+        setData(formData)
+    }, [post])
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -22,16 +28,26 @@ function PostForm({ auth, threadId, parent, counter }) {
         setErrors(errors)
 
         if (Object.keys(errors).length === 0) {
-            addPost({
+            const postId = (post && post.id) ? post.id : null
+            const method = postId ? 'put' : 'post'
+            const postData = {
                 user_id: auth.id,
                 thread_id: threadId,
                 parent_id: parent ? parent.id : 0,
                 text: data.text,
-            })
+            }
+            if (!postId) postData.user_id = auth.id;
+
+            savePost(method, postId, postData)
             .then(function (response) {
                 if (response.status === 200) {
                     setData(initialData)
                     counter()
+                    editPost()
+                    if(response.data.info) {
+                        setMessage(response.data.info)
+                        setTimeout(() => setMessage(''), 1500)
+                    }
                 }
             })
             .catch(function (error) {
@@ -59,8 +75,9 @@ function PostForm({ auth, threadId, parent, counter }) {
 
     return (
         <form onSubmit={handleSubmit} className="post-form" id="postForm">
-            <h2 className="mb-4">Post Your Comment</h2>
+            <h2 className="mb-4">{post ? 'Edit Comment' : 'Post Your Comment'}</h2>
             {Object.keys(errors).length > 0 && <InfoBlock errors={errors} />}
+            {message && <InfoBlock success={message} />}
             {parent 
                 &&
                 <div className="parent-post">

@@ -227,6 +227,12 @@ h1 {
     width: 100%;
     display: flex;
     justify-content: flex-end;
+
+    & a {
+        &:not(:last-child) {
+            margin-right: 20px;
+        }
+    }
 }
 
 .comment-content {
@@ -258,7 +264,6 @@ h1 {
 }
 
 .parent-post {
-
     cursor: pointer;
 
     .parent-post-title {

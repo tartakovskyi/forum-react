@@ -11,6 +11,7 @@ import ShowMoreBtn from '../common/ShowMoreBtn'
 function ThreadPage({ auth }) {
 
   const [addedPostCounter, setAddedPostCounter] = useState(0)
+  const [formPost, setFormPost] = useState(null)
   const [limit, setLimit] = useState(10)
   const [posts, setPosts] = useState([])
   const [replyingToPost, setReplyingToPost] = useState(null)
@@ -29,12 +30,14 @@ function ThreadPage({ auth }) {
     })
   }, [id, addedPostCounter, limit])
 
-  useEffect(() => {
-    ref.current.scrollIntoView({ behavior: 'smooth' })
-  }, [replyingToPost])
-
   const counter = () => {
     setAddedPostCounter(addedPostCounter + 1)
+  }
+
+  const editPost = (post, parent) => {
+    setFormPost(post)
+    setReplyingToPost(parent)
+    if(post || parent) ref.current.scrollIntoView({ behavior: 'smooth' })
   }
 
   const showMore = () => {
@@ -44,7 +47,7 @@ function ThreadPage({ auth }) {
   return (
     <>
       <Title title={threadInfo.title} />
-      {posts && <PostList posts={posts} setReplyingToPost={setReplyingToPost} level="1" />}
+      {posts && <PostList posts={posts} editPost={editPost} level="1" />}
 
       {posts && posts.length < threadInfo.count && <ShowMoreBtn onClick={showMore} />}
       
@@ -55,7 +58,7 @@ function ThreadPage({ auth }) {
               You must be <Link to='/login'>logged in</Link> to post a comment
           </div>
           :
-          <PostForm threadId={threadInfo.id} parent={replyingToPost} counter={counter} />
+          <PostForm threadId={threadInfo.id} parent={replyingToPost} counter={counter} post={formPost} editPost={editPost} />
         }
       </div>
     </>

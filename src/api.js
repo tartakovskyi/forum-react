@@ -44,7 +44,7 @@ export const getPosts = (threadId, limit) => {
 
 export const savePost = (method, postId, data) => {
     const authToken = getToken()
-    const path = '/post' + (postId ? '/' + postId : '')
+    const path = '/post' + (postId ? `/${postId}` : '')
     return axios[method](path, data, {
         headers: { Authorization: authToken },
     })
@@ -65,7 +65,7 @@ export const getThreads = (limit) => {
 
 export const saveThread = (method, threadId, data) => {
     const authToken = getToken()
-    const path = '/thread' + (threadId ? '/' + threadId : '')
+    const path = '/thread' + (threadId ? `/${threadId}` : '')
     return axios[method](path, data, {
         headers: { Authorization: authToken },
     })

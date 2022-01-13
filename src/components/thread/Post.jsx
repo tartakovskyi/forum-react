@@ -6,7 +6,7 @@ import ParentPost from './ParentPost'
 import PostList from './PostList'
 
 
-function Post({ post, level, setReplyingToPost, scrollToParent, parent }) {
+function Post({ post, editPost, level, scrollToParent, parent }) {
 
   const newLevel = Number(level) + 1
   const date = convertDate(post.created_at)
@@ -34,7 +34,8 @@ function Post({ post, level, setReplyingToPost, scrollToParent, parent }) {
           </div>
         </div> 
         <div className="forum-post-reply" >
-          <Link to="#" onClick={() => setReplyingToPost(post)}>Reply</Link>
+          <span className="link" onClick={() => editPost(post, parent)}>Edit</span>
+          <span className="link" onClick={() => editPost(null, post)}>Reply</span>
         </div>   
       </div>
       <div className="comment-content">
@@ -53,7 +54,6 @@ function Post({ post, level, setReplyingToPost, scrollToParent, parent }) {
                   level={newLevel} 
                   parent={(newLevel > 3) ? post : null} 
                   scrollToParent={executeScroll} 
-                  setReplyingToPost={setReplyingToPost} 
                 />
               </>
             :

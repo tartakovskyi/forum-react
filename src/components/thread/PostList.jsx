@@ -2,7 +2,7 @@ import React from 'react'
 import Post from './Post'
 
 
-function PostList({ posts, level, parent, scrollToParent, setReplyingToPost }) {
+function PostList({ posts, editPost, level, parent, scrollToParent }) {
 
 
   return (
@@ -12,8 +12,8 @@ function PostList({ posts, level, parent, scrollToParent, setReplyingToPost }) {
       level={level}
       parent={parent}
       key={post.id} 
+      editPost={editPost}
       scrollToParent={scrollToParent}
-      setReplyingToPost={setReplyingToPost}
     />)}    
     </div>
   )

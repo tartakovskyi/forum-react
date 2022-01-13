@@ -11,10 +11,10 @@ const initialData = {
 
 
 function ThreadForm({ auth, counter, editThread, thread }) {
-
-    const [data, setData] = useState(initialData)
-    const [errors, setErrors] = useState({})
+console.log()
+    const [data, setData] = useState(initialData)    
     const [message, setMessage] = useState('')
+    const [errors, setErrors] = useState({})
 
     useEffect(() => {
         if (thread && thread.title) setData({ title: thread.title })
@@ -41,10 +41,10 @@ function ThreadForm({ auth, counter, editThread, thread }) {
                     counter()
                     editThread(null)
                     if(response.data.info) {
-                      setMessage(response.data.info)
-                      setTimeout(() => setMessage(''), 1500)
-                  }
-              }
+                        setMessage(response.data.info)
+                        setTimeout(() => setMessage(''), 1500)
+                    }
+                }
             })
             .catch(function (error) {
                 console.log(error)
