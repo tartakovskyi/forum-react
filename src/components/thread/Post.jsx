@@ -1,12 +1,14 @@
 import React, { useRef, useState } from 'react'
 import { Link  } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { destroyPost } from '../../api'
 import { convertDate } from '../../helpers'
 import Userpic from '../common/Userpic'
 import ParentPost from './ParentPost'
 import PostList from './PostList'
 
 
-function Post({ post, editPost, level, scrollToParent, parent }) {
+function Post({ auth, post, parent, counter, editPost, level, scrollToParent }) {
 
   const newLevel = Number(level) + 1
   const date = convertDate(post.created_at)
@@ -18,6 +20,18 @@ function Post({ post, editPost, level, scrollToParent, parent }) {
   const toggleChildren = e => {
     e.preventDefault()
     setShowChildren(!showChildren)
+  }
+
+  const destroy = id => {
+    destroyPost(id)
+    .then(response => {
+      if (response.status === 200 && response.data.status === 'success') {
+        counter()
+      }
+    })
+    .catch(function (error) {
+      console.log(error)
+    })
   }
 
   return (
@@ -34,8 +48,9 @@ function Post({ post, editPost, level, scrollToParent, parent }) {
           </div>
         </div> 
         <div className="forum-post-reply" >
-          <span className="link" onClick={() => editPost(post, parent)}>Edit</span>
-          <span className="link" onClick={() => editPost(null, post)}>Reply</span>
+          {auth && (auth.id === post.user.id || auth.role_id == 1) && !post.children && <span className="link" onClick={() => destroy(post.id)}>Delete</span>}
+          {auth && (auth.id === post.user.id || auth.role_id == 1) && <span className="link" onClick={() => editPost(post, parent)}>Edit</span>} 
+          {auth && <span className="link" onClick={() => editPost(null, post)}>Reply</span>}          
         </div>   
       </div>
       <div className="comment-content">
@@ -52,7 +67,9 @@ function Post({ post, editPost, level, scrollToParent, parent }) {
                 <PostList 
                   posts={post.children}
                   level={newLevel} 
-                  parent={(newLevel > 3) ? post : null} 
+                  parent={(newLevel > 3) ? post : null}
+                  counter={counter}
+                  editPost={editPost}
                   scrollToParent={executeScroll} 
                 />
               </>
@@ -68,4 +85,11 @@ function Post({ post, editPost, level, scrollToParent, parent }) {
 }
 
 
-export default Post
+const mapStateToProps = function ({ user }) {
+  return { 
+    auth: user.auth
+  }
+}
+
+
+export default connect(mapStateToProps)(Post)

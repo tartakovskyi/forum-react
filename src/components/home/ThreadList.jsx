@@ -28,7 +28,7 @@ function ThreadList({ auth, counter, threads, editThread }) {
         Object.keys(error.response.data.errors).forEach(key => errors[key] = error.response.data.errors[key][0])
         setErrors(errors)
       } else if(error.response && error.response.status && error.response.status === 401) {
-        setErrors({auth:'You must be logged in to post a comment'})
+        setErrors({auth:'You must be logged in'})
       }
     })
   }

@@ -47,7 +47,7 @@ function ThreadPage({ auth }) {
   return (
     <>
       <Title title={threadInfo.title} />
-      {posts && <PostList posts={posts} editPost={editPost} level="1" />}
+      {posts && <PostList posts={posts} counter={counter} editPost={editPost} level="1" />}
 
       {posts && posts.length < threadInfo.count && <ShowMoreBtn onClick={showMore} />}
       
