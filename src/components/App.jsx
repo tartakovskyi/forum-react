@@ -4,12 +4,13 @@ import { connect } from 'react-redux'
 import { getAuthAction, logoutAction } from '../store/actions/userAction'
 import Login from './auth/Login'
 import Register from './auth/Register'
+import Modal from './common/Modal'
 import Navigation from './common/Navigation'
 import HomePage from './home/HomePage'
 import ThreadPage from './thread/ThreadPage'
 
 
-function App({ auth, getAuthAction, logoutAction }) {
+function App({ auth, getAuthAction, logoutAction, modalActive }) {
 
   const [isLogged, setIsLogged] = useState(false)
 
@@ -38,14 +39,16 @@ function App({ auth, getAuthAction, logoutAction }) {
           </Routes>
         </div>
       </main>
+      {modalActive && <Modal />}
     </>
   )
 }
 
 
-const mapStateToProps = function ({ user }) {
+const mapStateToProps = function ({ modal, user }) {
   return {
     auth: user.auth,
+    modalActive: modal.active
   }
 }
 

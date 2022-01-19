@@ -56,7 +56,7 @@ const Register = () => {
         if (!data.password) errors.password = 'Password cannot be blank'
         if (!data.confirmPassword)
             errors.confirmPassword = 'Please, confirm password'
-        if (data.password != data.confirmPassword) errors.confirmPassword = 'password and confirmation should match'
+        if (data.password !== data.confirmPassword) errors.confirmPassword = 'password and confirmation should match'
 
         return errors
     }

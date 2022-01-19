@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
-import { Link  } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { hideModalAction, showModalAction } from '../../store/actions/modalAction'
 import { destroyPost } from '../../api'
 import { convertDate } from '../../helpers'
 import Userpic from '../common/Userpic'
@@ -8,7 +8,7 @@ import ParentPost from './ParentPost'
 import PostList from './PostList'
 
 
-function Post({ auth, post, parent, counter, editPost, level, scrollToParent }) {
+function Post({ auth, post, parent, counter, editPost, level, scrollToParent, hideModalAction, showModalAction }) {
 
   const newLevel = Number(level) + 1
   const date = convertDate(post.created_at)
@@ -28,9 +28,21 @@ function Post({ auth, post, parent, counter, editPost, level, scrollToParent }) 
       if (response.status === 200 && response.data.status === 'success') {
         counter()
       }
+      debugger
+      hideModalAction()
     })
     .catch(function (error) {
       console.log(error)
+    })
+  }
+
+  const destroyPostModal = id => {
+    showModalAction({
+      text: 'Are you sure you want to delete the message?',
+      btnConfirm: {
+        text: 'Confirm',
+        onClick: () => destroy(id)
+      }
     })
   }
 
@@ -48,8 +60,8 @@ function Post({ auth, post, parent, counter, editPost, level, scrollToParent }) 
           </div>
         </div> 
         <div className="forum-post-reply" >
-          {auth && (auth.id === post.user.id || auth.role_id == 1) && !post.children && <span className="link" onClick={() => destroy(post.id)}>Delete</span>}
-          {auth && (auth.id === post.user.id || auth.role_id == 1) && <span className="link" onClick={() => editPost(post, parent)}>Edit</span>} 
+          {auth && ((auth.id === post.user.id && !post.children) || auth.role_id === 1)  && <span className="link" onClick={() => destroyPostModal(post.id)}>Delete</span>}
+          {auth && ((auth.id === post.user.id && !post.children) || auth.role_id === 1) && <span className="link" onClick={() => editPost(post, parent)}>Edit</span>} 
           {auth && <span className="link" onClick={() => editPost(null, post)}>Reply</span>}          
         </div>   
       </div>
@@ -63,7 +75,7 @@ function Post({ auth, post, parent, counter, editPost, level, scrollToParent }) 
           {showChildren
             ?
               <>
-                <a href="#" onClick={e => toggleChildren(e)} className="d-block mt-4">Hide replies</a>
+                <span onClick={e => toggleChildren(e)} className="link d-block mt-4">Hide replies</span>
                 <PostList 
                   posts={post.children}
                   level={newLevel} 
@@ -74,7 +86,7 @@ function Post({ auth, post, parent, counter, editPost, level, scrollToParent }) 
                 />
               </>
             :
-              <a href="#" onClick={e => toggleChildren(e)} className="d-block mt-4">{`View ${post.children.length} replies`}</a>
+              <span onClick={e => toggleChildren(e)} className="link d-block mt-4">{`View ${post.children.length} replies`}</span>
           } 
         </>
         
@@ -92,4 +104,4 @@ const mapStateToProps = function ({ user }) {
 }
 
 
-export default connect(mapStateToProps)(Post)
+export default connect(mapStateToProps, { hideModalAction, showModalAction })(Post)
