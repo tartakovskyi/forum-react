@@ -3,7 +3,13 @@ import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 
-function Navigation({ auth, logout }) {
+type NavigationFormProps = {
+  auth: object | null
+  logout(): void
+}
+
+
+const Navigation: React.FC<NavigationFormProps> = ({ auth, logout }) => {
 
   return (
     <nav className="navbar navbar-expand-lg menu_one navbar_fixed fadeInDown">
