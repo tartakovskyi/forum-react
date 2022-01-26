@@ -6,3 +6,5 @@ export const reducers = combineReducers({
     modal,
     user
 })
+
+export type RootState = ReturnType
